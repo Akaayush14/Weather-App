@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,22 +7,75 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🌤 Weather App</h1>
-    <div class="search-box">
-      <input type="text" id="cityInput" placeholder="Enter city name..." />
-      <button onclick="getWeather()">Search</button>
+
+  <div class="topbar">
+    <span class="app-title">🌤 Weather App</span>
+    <div class="topbar-actions">
+      <button onclick="toggleUnit()" id="unitBtn">Switch to °F</button>
+      <button onclick="toggleDark()" id="darkBtn">🌙 Dark Mode</button>
     </div>
-    <div id="weatherResult" class="weather-card hidden">
-      <h2 id="cityName"></h2>
-      <img id="weatherIcon" src="" alt="weather icon" />
-      <p id="description"></p>
-      <p>🌡 Temperature: <span id="temp"></span>°C</p>
-      <p>💧 Humidity: <span id="humidity"></span>%</p>
-      <p>💨 Wind Speed: <span id="wind"></span> m/s</p>
-    </div>
-    <div id="errorMsg" class="error hidden">City not found. Please try again.</div>
   </div>
+
+  <!-- Alert Banner -->
+  <div id="alertBanner" class="alert-banner hidden"></div>
+
+  <div class="main-container">
+
+    <!-- LEFT: Main Search -->
+    <div class="left-panel">
+      <div class="search-box">
+        <input type="text" id="cityInput" placeholder="Enter city name..." />
+        <button onclick="getWeather()">Search</button>
+        <button onclick="getLocationWeather()" title="Use my location">📍</button>
+      </div>
+
+      <!-- Recent Searches -->
+      <div id="recentSearches" class="recent-searches"></div>
+
+      <!-- Error -->
+      <div id="errorMsg" class="error hidden">City not found. Please try again.</div>
+
+      <!-- Current Weather -->
+      <div id="weatherResult" class="weather-card hidden">
+        <h2 id="cityName"></h2>
+        <img id="weatherIcon" src="" alt="weather icon" />
+        <p id="description"></p>
+        <p>🌡 Temperature: <span id="temp"></span></p>
+        <p>💧 Humidity: <span id="humidity"></span>%</p>
+        <p>💨 Wind: <span id="wind"></span> m/s</p>
+      </div>
+
+      <!-- Hourly Forecast -->
+      <div id="hourlySection" class="hidden">
+        <h3 class="section-title">Hourly Forecast</h3>
+        <div id="hourlyCards" class="hourly-cards"></div>
+      </div>
+
+      <!-- 5-Day Forecast -->
+      <div id="forecastSection" class="hidden">
+        <h3 class="section-title">5-Day Forecast</h3>
+        <div id="forecastCards" class="forecast-cards"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Compare Cities -->
+    <div class="right-panel">
+      <h3 class="section-title">Compare Cities</h3>
+      <div class="compare-search">
+        <input type="text" id="city1Input" placeholder="City 1..." />
+        <input type="text" id="city2Input" placeholder="City 2..." />
+        <button onclick="compareCities()">Compare</button>
+      </div>
+      <div id="compareError" class="error hidden">One or both cities not found.</div>
+      <div id="compareResult" class="compare-result hidden">
+        <div class="compare-card" id="compareCard1"></div>
+        <div class="compare-vs">VS</div>
+        <div class="compare-card" id="compareCard2"></div>
+      </div>
+    </div>
+
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
