@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Weather App</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- TensorFlow.js for personal comfort predictor -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
 </head>
 <body>
 
@@ -52,24 +50,7 @@
           <p id="anomalyDetail" class="anomaly-detail"></p>
         </div>
 
-        <!-- ── PERSONAL COMFORT SCORE ── -->
-        <div class="comfort-section">
-          <div class="comfort-header">
-            <span class="comfort-label">Your Comfort Score</span>
-            <span id="comfortScore" class="comfort-score">—</span>
-          </div>
-          <div class="comfort-bar-track">
-            <div id="comfortBar" class="comfort-bar" style="width:0%"></div>
-          </div>
-          <p id="comfortText" class="comfort-text">Loading model…</p>
 
-          <!-- Rating feedback -->
-          <div class="comfort-rating" id="comfortRating">
-            <span class="rating-label">How do you actually feel?</span>
-            <div class="rating-stars" id="ratingStars"></div>
-            <p id="ratingThanks" class="rating-thanks hidden">✓ Saved! Model will retrain after a few more ratings.</p>
-          </div>
-        </div>
       </div>
 
       <!-- Hourly Forecast -->
@@ -100,16 +81,7 @@
         <div class="compare-card" id="compareCard2"></div>
       </div>
 
-      <!-- ── MODEL STATUS ── -->
-      <div class="model-status-panel">
-        <h3 class="section-title">🧠 AI Model Status</h3>
-        <div id="modelStatus" class="model-status">
-          <p>Ratings collected: <strong id="ratingCount">0</strong> / 10</p>
-          <p>Model state: <strong id="modelState">Default (untrained)</strong></p>
-          <button onclick="retrainModel()" id="retrainBtn" class="retrain-btn hidden">🔁 Retrain Now</button>
-          <button onclick="resetModel()" class="reset-btn">🗑 Reset Model</button>
-        </div>
-      </div>
+
     </div>
 
   </div>
