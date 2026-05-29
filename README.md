@@ -11,3 +11,4 @@ The feature used in this project are:
 - 🕐 Recent searches: last 5 cities saved locally
 - ⚠️ Weather alerts banner: shows severe weather warnings
 - 🏙 Compare two cities: side-by-side weather comparison
+- Anamoly detection is added
