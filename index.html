@@ -4,15 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Weather App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <!-- Weather Canvas Background -->
+  <canvas id="weatherCanvas"></canvas>
+  <div id="canvasOverlay" class="canvas-overlay"></div>
+
   <div class="topbar">
-    <span class="app-title">🌤 Weather App</span>
+    <span class="app-title">
+      <span class="app-icon" id="appIcon">🌤</span>
+      <span>Skye</span>
+    </span>
     <div class="topbar-actions">
       <button onclick="toggleUnit()" id="unitBtn">Switch to °F</button>
-      <button onclick="toggleDark()" id="darkBtn">🌙 Dark Mode</button>
+      <button onclick="toggleDark()" id="darkBtn">🌙 Dark</button>
     </div>
   </div>
 
@@ -23,10 +33,14 @@
 
     <!-- LEFT: Main Search -->
     <div class="left-panel">
-      <div class="search-box">
-        <input type="text" id="cityInput" placeholder="Enter city name..." />
-        <button onclick="getWeather()">Search</button>
-        <button onclick="getLocationWeather()" title="Use my location">📍</button>
+      <div class="search-box glass-card">
+        <input type="text" id="cityInput" placeholder="Search a city…" />
+        <button class="search-btn" onclick="getWeather()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="loc-btn" onclick="getLocationWeather()" title="Use my location">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </button>
       </div>
 
       <!-- Recent Searches -->
@@ -36,21 +50,40 @@
       <div id="errorMsg" class="error hidden">City not found. Please try again.</div>
 
       <!-- Current Weather -->
-      <div id="weatherResult" class="weather-card hidden">
-        <h2 id="cityName"></h2>
-        <img id="weatherIcon" src="" alt="weather icon" />
-        <p id="description"></p>
-        <p>🌡 Temperature: <span id="temp"></span></p>
-        <p>💧 Humidity: <span id="humidity"></span>%</p>
-        <p>💨 Wind: <span id="wind"></span> m/s</p>
+      <div id="weatherResult" class="weather-card glass-card hidden">
+        <div class="weather-main">
+          <div class="weather-left">
+            <h2 id="cityName"></h2>
+            <p id="description" class="weather-desc"></p>
+            <div class="weather-temp-big"><span id="temp"></span></div>
+          </div>
+          <div class="weather-right">
+            <img id="weatherIcon" src="" alt="weather icon" class="weather-icon-big" />
+          </div>
+        </div>
+        <div class="weather-stats">
+          <div class="stat-pill">
+            <span class="stat-icon">💧</span>
+            <span class="stat-label">Humidity</span>
+            <span class="stat-val" id="humidity"></span><span class="stat-unit">%</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon">💨</span>
+            <span class="stat-label">Wind</span>
+            <span class="stat-val" id="wind"></span><span class="stat-unit">m/s</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon">🌡</span>
+            <span class="stat-label">Feels like</span>
+            <span class="stat-val" id="feelsLike"></span>
+          </div>
+        </div>
 
-        <!-- ── ANOMALY DETECTION BADGE ── -->
+        <!-- ANOMALY DETECTION -->
         <div id="anomalySection" class="anomaly-section hidden">
           <div id="anomalyBadge" class="anomaly-badge"></div>
           <p id="anomalyDetail" class="anomaly-detail"></p>
         </div>
-
-
       </div>
 
       <!-- Hourly Forecast -->
@@ -68,20 +101,29 @@
 
     <!-- RIGHT: Compare Cities -->
     <div class="right-panel">
-      <h3 class="section-title">Compare Cities</h3>
-      <div class="compare-search">
-        <input type="text" id="city1Input" placeholder="City 1..." />
-        <input type="text" id="city2Input" placeholder="City 2..." />
-        <button onclick="compareCities()">Compare</button>
+      <div class="compare-panel glass-card">
+        <div class="compare-header">
+          <span class="compare-icon">⚖️</span>
+          <h3 class="compare-title">Compare Cities</h3>
+        </div>
+        <div class="compare-inputs">
+          <div class="compare-input-row">
+            <span class="compare-dot dot-a">A</span>
+            <input type="text" id="city1Input" placeholder="First city…" />
+          </div>
+          <div class="compare-input-row">
+            <span class="compare-dot dot-b">B</span>
+            <input type="text" id="city2Input" placeholder="Second city…" />
+          </div>
+          <button class="compare-btn" onclick="compareCities()">Compare →</button>
+        </div>
+        <div id="compareError" class="error hidden">One or both cities not found.</div>
+        <div id="compareResult" class="compare-result hidden">
+          <div class="compare-card" id="compareCard1"></div>
+          <div class="compare-vs"><span>VS</span></div>
+          <div class="compare-card" id="compareCard2"></div>
+        </div>
       </div>
-      <div id="compareError" class="error hidden">One or both cities not found.</div>
-      <div id="compareResult" class="compare-result hidden">
-        <div class="compare-card" id="compareCard1"></div>
-        <div class="compare-vs">VS</div>
-        <div class="compare-card" id="compareCard2"></div>
-      </div>
-
-
     </div>
 
   </div>
